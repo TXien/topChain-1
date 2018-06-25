@@ -54,14 +54,17 @@ def main():
 
 #getBlockNumber
 #if(blockNumber == null):
+#--getBlockNumber
 #genesisBlock
 #genesisBlockInsertToDB
+#--createGenesisBlock()
 #updateGenesisAccountBalance
 #else:
 #getPendingTransaction
 #verifyTransaction
 #pushTransactionToArray
 #getparentblock
+#--getBlock()
 #newBlock_POA(blockData,parentblock,key)
 #blockStoreToDB
 #updateDBAccountStatus
@@ -70,3 +73,4 @@ def main():
 
 if __name__ == "__main__":
 	main()
+

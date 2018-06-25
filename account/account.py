@@ -1,5 +1,5 @@
 import sys
-sys.path.append("./crypto")
+sys.path.append("../crypto")
 from basic import *#Hash_c
 
 
@@ -10,5 +10,5 @@ class Account:
         return re
 
 
-#print(Account.generator_v1())
+print(Account.generator_v1())
 
