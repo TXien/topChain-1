@@ -69,12 +69,10 @@ class Transaction:
         sign = signature_c.sign(en,key)
         transactionData["sign"] = sign
         transactionData["publicKey"] = Key_c.publicKey(key)
-<<<<<<< HEAD
-        transactionData["txid"] = Hash_c
-=======
+
         transactionData["txid"] = Code.txid(transactionData)
         #print("top2",Code.txid(transactionData))
->>>>>>> 492312af0536ced3607e14638882e055d7d9e1c9
+
         return transactionData
     def verifyTransaction(transaction):
         print(transaction)
@@ -100,6 +98,7 @@ transaction = {
 }
 x = Transaction.newTransaction(Transaction.newTransaction(transaction,"24ac4b12bbb37e5b1e59830c7e376f1963b9cacb4233fa53"),"24ac4b12bbb37e5b1e59830c7e376f1963b9cacb4233fa53")
 <<<<<<< HEAD
+<<<<<<< HEAD
 print(x)
 
 
@@ -110,7 +109,5 @@ print(Code.transactionDecode("000000000000000000000000000001cxfcb42deca97e4e8339
 #y = Code.txid(x)
 #print(y)
 #print(Code.transactionDecode("000000000000000000000000000001cxfcb42deca97e4e8339e0b950ba5efa368fe71a55000000000000000000000000000001now000000000000000000000000000100cic000000000000000000000000000010"))
-
->>>>>>> 492312af0536ced3607e14638882e055d7d9e1c9
 
 

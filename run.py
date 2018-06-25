@@ -71,6 +71,10 @@ def main():
 #pack transaction
 #stay time
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> e818d7f1b533e3c60c1114e6daf32ffebdf5bab3
 if __name__ == "__main__":
 	main()
 
