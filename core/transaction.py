@@ -89,7 +89,7 @@ class Transaction:
         except:
             print("sign error or something wrong")
         return True
-"""
+
 transaction = {
     "to":"cxfcb42deca97e4e8339e0b950ba5efa368fe71a55",
     "out":{"cic":"10","now":"100"},
@@ -102,7 +102,5 @@ x = Transaction.newTransaction(Transaction.newTransaction(transaction,"24ac4b12b
 #y = Code.txid(x)
 #print(y)
 #print(Code.transactionDecode("000000000000000000000000000001cxfcb42deca97e4e8339e0b950ba5efa368fe71a55000000000000000000000000000001now000000000000000000000000000100cic000000000000000000000000000010"))
-
-
 
 
