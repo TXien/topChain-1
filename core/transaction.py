@@ -40,7 +40,7 @@ class Code:
             trans["fee"]="0"+trans["fee"]
         re = re+trans["fee"]
         re = re+trans["sign"].decode("utf-8")
-        print("top:",trans["sign"].decode("utf-8"))
+        #print("top:",trans["sign"].decode("utf-8"))
         re = re+reToken
         re = Hash_c.sha256_string(re)
         trans["txid"]=re
@@ -68,6 +68,8 @@ class Transaction:
         sign = signature_c.sign(en,key)
         transactionData["sign"] = sign
         transactionData["publicKey"] = Key_c.publicKey(key)
+        transactionData["txid"] = Code.txid(transactionData)
+        #print("top2",Code.txid(transactionData))
         return transactionData
     def verifyTransaction(transaction):
         print(transaction)
@@ -91,10 +93,10 @@ transaction = {
     "fee":"1"
 }
 x = Transaction.newTransaction(Transaction.newTransaction(transaction,"24ac4b12bbb37e5b1e59830c7e376f1963b9cacb4233fa53"),"24ac4b12bbb37e5b1e59830c7e376f1963b9cacb4233fa53")
-print(x)
-y = Code.txid(x)
-print(y)
-print(Code.transactionDecode("000000000000000000000000000001cxfcb42deca97e4e8339e0b950ba5efa368fe71a55000000000000000000000000000001now000000000000000000000000000100cic000000000000000000000000000010"))
+#print(x)
+#y = Code.txid(x)
+#print(y)
+#print(Code.transactionDecode("000000000000000000000000000001cxfcb42deca97e4e8339e0b950ba5efa368fe71a55000000000000000000000000000001now000000000000000000000000000100cic000000000000000000000000000010"))
 
 
 
