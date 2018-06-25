@@ -89,7 +89,7 @@ class Transaction:
         except:
             print("sign error or something wrong")
         return True
-"""
+
 transaction = {
     "to":"cxfcb42deca97e4e8339e0b950ba5efa368fe71a55",
     "out":{"cic":"10","now":"100"},
