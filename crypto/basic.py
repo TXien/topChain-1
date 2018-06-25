@@ -6,7 +6,7 @@ from six import b, print_, binary_type
 #from .keys import SigningKey, VerifyingKey
 
 import sys
-sys.path.append("../")
+#sys.path.append("ecdsa/")
 from ecdsa import SigningKey, VerifyingKey
 class Hash_c:
     def sha256_string(data):

@@ -1,6 +1,7 @@
 import sys
-sys.path.append("../crypto")
-from basic import *#Hash_c
+from core.database import *
+#sys.path.append("../crypto")
+from crypto.basic import *#Hash_c
 
 
 class Code:
@@ -45,6 +46,7 @@ class Transaction:
         sign = signature_c.sign(en,key)
         transactionData["sign"] = sign
         transactionData["publicKey"] = Key_c.publicKey(key)
+        transactionData["txid"] = Hash_c
         return transactionData
     def verifyTransaction(transaction):
         print(transaction)
@@ -52,15 +54,16 @@ class Transaction:
         try:
             signature_c.verify(transaction["sign"],b(en),transaction["publicKey"])
             #balance verify and nonce
-            try:
-                #
-                return 0
-            except:
-                #
-                print("not enough balance")
-        except:
-            print("sign error")
+            if not verifyBalanceAndNonce(transaction):
+                return False
+            else:
+                if not updateBalanceAndNonce(transaction):
+                    return False
 
+        except:
+            print("sign error or something wrong")
+        return True
+"""
 transaction = {
     "to":"cxfcb42deca97e4e8339e0b950ba5efa368fe71a55",
     "out":{"cic":"10","now":"100"},
@@ -72,6 +75,6 @@ print(x)
 
 
 print(Code.transactionDecode("000000000000000000000000000001cxfcb42deca97e4e8339e0b950ba5efa368fe71a55000000000000000000000000000001now000000000000000000000000000100cic000000000000000000000000000010"))
-
+"""
 
 

@@ -18,7 +18,10 @@ class Genesis:
             "hash":"AC66D1839E1B79F1FB22181B70237F1E45E3D95A512A0790C216328CA2631674",
             "extraData":"",
             "ParentHash":"",
-            "Alloc":[{"cxfcb42deca97e4e8339e0b950ba5efa368fe71a55":"300"}]
+            "transaction":[{"to":"cxfcb42deca97e4e8339e0b950ba5efa368fe71a55",
+                            "out":{"cic":"300","now":"100"},
+                            "nonce":"1",
+                            "fee":"1"}]
         }
         return genesis
 
