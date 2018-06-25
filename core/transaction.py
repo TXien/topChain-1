@@ -1,6 +1,7 @@
 import sys
-sys.path.append("../crypto")
-from basic import *#Hash_c
+from core.database import *
+#sys.path.append("../crypto")
+from crypto.basic import *#Hash_c
 
 
 class Code:
@@ -68,8 +69,10 @@ class Transaction:
         sign = signature_c.sign(en,key)
         transactionData["sign"] = sign
         transactionData["publicKey"] = Key_c.publicKey(key)
+
         transactionData["txid"] = Code.txid(transactionData)
         #print("top2",Code.txid(transactionData))
+
         return transactionData
     def verifyTransaction(transaction):
         print(transaction)
@@ -77,15 +80,16 @@ class Transaction:
         try:
             signature_c.verify(transaction["sign"],b(en),transaction["publicKey"])
             #balance verify and nonce
-            try:
-                #
-                return 0
-            except:
-                #
-                print("not enough balance")
-        except:
-            print("sign error")
+            if not verifyBalanceAndNonce(transaction):
+                return False
+            else:
+                if not updateBalanceAndNonce(transaction):
+                    return False
 
+        except:
+            print("sign error or something wrong")
+        return True
+"""
 transaction = {
     "to":"cxfcb42deca97e4e8339e0b950ba5efa368fe71a55",
     "out":{"cic":"10","now":"100"},
@@ -93,10 +97,12 @@ transaction = {
     "fee":"1"
 }
 x = Transaction.newTransaction(Transaction.newTransaction(transaction,"24ac4b12bbb37e5b1e59830c7e376f1963b9cacb4233fa53"),"24ac4b12bbb37e5b1e59830c7e376f1963b9cacb4233fa53")
+
 #print(x)
 #y = Code.txid(x)
 #print(y)
 #print(Code.transactionDecode("000000000000000000000000000001cxfcb42deca97e4e8339e0b950ba5efa368fe71a55000000000000000000000000000001now000000000000000000000000000100cic000000000000000000000000000010"))
+
 
 
 

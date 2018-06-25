@@ -1,11 +1,11 @@
 import sys
-sys.path.append("../crypto")
-from basic import *#Hash_c
-from genesis import *#Hash_c
+#sys.path.append("../crypto")
+from crypto.basic import *#Hash_c
+from core.genesis import *#Hash_c
 #print(Hash_c.sha256_string(""))
 #print(Genesis.genesis())
-from transactionCode import Code
-
+from core.transactionCode import Code
+ 
 class Code:
     def blockEncodeForSign(blockData):
         re = ""
@@ -39,9 +39,8 @@ blockData = {
 Code.blockEncodeForSign(blockData)
 '''
 class Block:
-    def newBlock_POA(blockData,parentblock,key):
-        """
-        blockData = {
+    def __init__(self):
+        self.blockData = {
             "version":"sue",
             "config":
                 {
@@ -55,7 +54,10 @@ class Block:
             "verify":[],
             "transaction":[]
         }
-        """
+    def pushTransactionToArray(self, transaction):
+        self.blockData['transaction'].append(transaction)
+        
+    def newBlock_POA(blockData,parentblock,key):
         #print (blockData["version"])
         blockData["ParentHash"]= parentblock["hash"]
         blockData["hash"]= Hash_c.sha256_string(str(blockData))
@@ -109,6 +111,6 @@ blockData = {
             "transaction":[]
 }
 #print(Block.newBlock_POA(blockData,Genesis.genesis(),"24ac4b12bbb37e5b1e59830c7e376f1963b9cacb4233fa53"))
-print(Block.verifyBlock(Block.newBlock_POA(blockData,Genesis.genesis(),"24ac4b12bbb37e5b1e59830c7e376f1963b9cacb4233fa53")))
+#print(Block.verifyBlock(Block.newBlock_POA(blockData,Genesis.genesis(),"24ac4b12bbb37e5b1e59830c7e376f1963b9cacb4233fa53")))
 
 #Block.transactionDecode("000000000000000000000000000001cxfcb42deca97e4e8339e0b950ba5efa368fe71a55000000000000000000000000000001now000000000000000000000000000100cic000000000000000000000000000010")

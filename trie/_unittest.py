@@ -10,8 +10,8 @@ class TestingClass(unittest.TestCase):
 
 	def __init__(self, *args, **kwargs):
 		super(TestingClass, self).__init__(*args, **kwargs)
-		self.test = MPT.MerklePatriciaTrie("testdb","")
-		self.db = leveldb.LevelDB("rootdb")
+		self.test = MPT.MerklePatriciaTrie("trie/testdb","")
+		self.db = leveldb.LevelDB("trie/rootDB")
 	def test_all(self):
 		
 		start = time.time()

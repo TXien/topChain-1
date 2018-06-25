@@ -1,10 +1,10 @@
 
 # coding: utf-8
 import sys
-#sys.path.append('../trie')
+sys.path.append('trie')
 #print(sys.path)
-import encoding
-import db
+import encoding 
+import db 
 
 import pickle
 from hashlib import sha256
@@ -14,7 +14,7 @@ class MerklePatriciaTrie:
     def __init__(self,dbname,_root_hash=""):
         self.db = db.DB(dbname)
         self.root = ""
-        self.id = 0
+        self.id = self.getCurrentNum()
         self.initial_root_hash(_root_hash)
     
     def initial_root_hash(self,root):
@@ -22,6 +22,14 @@ class MerklePatriciaTrie:
             return ""
         node = self.db.get(root)
         self.root = pickle.loads(node)
+
+    def getCurrentNum(self):
+        try:
+            idx = int(self.db.get(b'currentNum').decode())
+            #print('s', idx)
+            return idx
+        except:
+            return 0
 
     def root_hash(self):
         if self.root == "":
@@ -247,6 +255,7 @@ class MerklePatriciaTrie:
         #print(type(str(self.id).encode()))
         self.db.put(str(self.id).encode(), key.encode())
         self.id += 1
+        self.db.put(b'currentNum', str(self.id).encode())
         #print("Root after update:", self.root)
         
     def delete(self, key):
