@@ -4,7 +4,7 @@ from crypto.basic import *#Hash_c
 from core.genesis import *#Hash_c
 #print(Hash_c.sha256_string(""))
 #print(Genesis.genesis())
-from core.transactionCode import Code
+from core.transactionCode import Code as tranCode
  
 class Code:
     def blockEncodeForSign(blockData):
@@ -17,7 +17,7 @@ class Code:
         re = re + blockData["extraData"]
         re = re + blockData["ParentHash"]
         for v in blockData["transaction"]:
-            re + v
+            re += tranCode.transactionEncode(v)
         #print(re)
         return re
 '''
@@ -39,8 +39,8 @@ blockData = {
 Code.blockEncodeForSign(blockData)
 '''
 class Block:
-    def __init__(self):
-        self.blockData = {
+    def block():
+        blockData = {
             "version":"sue",
             "config":
                 {
@@ -54,8 +54,10 @@ class Block:
             "verify":[],
             "transaction":[]
         }
-    def pushTransactionToArray(self, transaction):
-        self.blockData['transaction'].append(transaction)
+        return blockData
+    def pushTransactionToArray(blockData, transaction):
+        blockData['transaction'].append(transaction)
+        return blockData
         
     def newBlock_POA(blockData,parentblock,key):
         #print (blockData["version"])

@@ -1,18 +1,30 @@
 import sys
-from core.database import *
+
 #sys.path.append("../crypto")
 from crypto.basic import *#Hash_c
 
 
 class Code:
     def transactionEncode(transaction):
+        coins = ['cic', 'now']
         trans = transaction
         re = ""
         reToken= ""
+        for coin in coins:
+            if coin in trans['out']:
+                v = trans['out'][coin]
+                for h in range(0,30-len(trans['out'][coin])):
+                    v="0"+v
+            reToken = reToken + coin + v
+        """
         for i,v in trans["out"].items():
+            #print(v)
             for h in range(0,30-len(v)):
                 v="0"+v
+            print(v)
             reToken = reToken+i+v
+            print(reToken)
+        """
         for x in range(0,30-len(trans["nonce"])):
             trans["nonce"]="0"+trans["nonce"]
         re = re+trans["nonce"]
@@ -22,6 +34,7 @@ class Code:
             trans["fee"]="0"+trans["fee"]
         re = re+trans["fee"]
         re = re+reToken
+        #print(re)
         return re
     #newTransaction
     def txid(transaction):
@@ -40,12 +53,13 @@ class Code:
         for z in range(0,30-len(trans["fee"])):
             trans["fee"]="0"+trans["fee"]
         re = re+trans["fee"]
-        re = re+trans["sign"].decode("utf-8")
+        #re = re+trans["sign"].decode("utf-8")
+        re = re+trans["sign"]
         #print("top:",trans["sign"].decode("utf-8"))
         re = re+reToken
         re = Hash_c.sha256_string(re)
-        trans["txid"]=re
-        return trans
+        #trans["txid"]=re
+        return re
     def transactionDecode(transaction):
         re = {}
         re["nonce"] = str(int(transaction[0:30]))
@@ -67,29 +81,25 @@ class Transaction:
     def newTransaction(transactionData,key):
         en = Code.transactionEncode(transactionData)
         sign = signature_c.sign(en,key)
-        transactionData["sign"] = sign
+        transactionData["sign"] = sign.decode()
         transactionData["publicKey"] = Key_c.publicKey(key)
-
+        #print('txid:',Code.txid(transactionData))
         transactionData["txid"] = Code.txid(transactionData)
         #print("top2",Code.txid(transactionData))
 
         return transactionData
     def verifyTransaction(transaction):
-        print(transaction)
+        #print(transaction)
         en = Code.transactionEncode(transaction)
-        try:
-            signature_c.verify(transaction["sign"],b(en),transaction["publicKey"])
-            #balance verify and nonce
-            if not verifyBalanceAndNonce(transaction):
-                return False
-            else:
-                if not updateBalanceAndNonce(transaction):
-                    return False
+        
+        signature_c.verify(transaction["sign"].encode(),b(en),transaction["publicKey"])
+        #except:
+        #    print("sign error")
+        #    return False
+        
 
-        except:
-            print("sign error or something wrong")
         return True
-
+"""
 transaction = {
     "to":"cxfcb42deca97e4e8339e0b950ba5efa368fe71a55",
     "out":{"cic":"10","now":"100"},
@@ -97,17 +107,17 @@ transaction = {
     "fee":"1"
 }
 x = Transaction.newTransaction(Transaction.newTransaction(transaction,"24ac4b12bbb37e5b1e59830c7e376f1963b9cacb4233fa53"),"24ac4b12bbb37e5b1e59830c7e376f1963b9cacb4233fa53")
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 print(x)
 
 
 print(Code.transactionDecode("000000000000000000000000000001cxfcb42deca97e4e8339e0b950ba5efa368fe71a55000000000000000000000000000001now000000000000000000000000000100cic000000000000000000000000000010"))
-"""
+
+
 =======
 #print(x)
 #y = Code.txid(x)
 #print(y)
 #print(Code.transactionDecode("000000000000000000000000000001cxfcb42deca97e4e8339e0b950ba5efa368fe71a55000000000000000000000000000001now000000000000000000000000000100cic000000000000000000000000000010"))
-
+"""
 
