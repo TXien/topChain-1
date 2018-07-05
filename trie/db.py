@@ -18,7 +18,7 @@ class DB:
         try:
             value = self.db.Get(key)
         except KeyError:
-            print('There is no such key!')
+            print('There is no such key!', key)
         except Exception as e:
             raise str(e)
         return value
@@ -35,5 +35,7 @@ class DB:
             return True
         except KeyError:
             return False
-        
-
+    
+    def deleteAll(self):
+        for key, value in self.db.RangeIter():
+            self.db.Delete(key)

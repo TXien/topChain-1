@@ -12,7 +12,7 @@ from hashlib import sha256
 END = 16
 class MerklePatriciaTrie:
     def __init__(self,dbname,_root_hash=""):
-        self.db = db.DB(dbname)
+        self.db = dbname
         self.root = ""
         self.id = self.getCurrentNum()
         self.initial_root_hash(_root_hash)
@@ -253,13 +253,15 @@ class MerklePatriciaTrie:
         #print("Current root:", self.root)
         self.root = self.update_and_delete(self.root, encoding.raw_to_hex(str(key)), value)
         #print(type(str(self.id).encode()))
-        self.db.put(str(self.id).encode(), key.encode())
+        self.db.put(str(self.id).encode(), pickle.dumps(value))
         self.id += 1
         self.db.put(b'currentNum', str(self.id).encode())
         #print("Root after update:", self.root)
         
     def delete(self, key):
         self.root = self.delete_and_delete(self.root, encoding.raw_to_hex(str(key)))
+        self.id -= 1
+        self.db.put(b'currentNum', str(self.id).encode())
         #print("Root after delete:", self.root)
         self.root_hash()
 
@@ -283,6 +285,8 @@ class MerklePatriciaTrie:
         self.delete_children(self.root)
         self.delete_db(self.root)
         self.root = ""
+        self.id = 0
+        self.db.put(b'currentNum', str(self.id).encode())
 
     def _count_key_num(self, node):
         _node_type = self.node_type(node)
